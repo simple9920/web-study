@@ -27,6 +27,8 @@ def get_item(db: Session, item_id: int, user_id: int):
         ItemModel.user_id == user_id
     ).first()
 
+
+
 #update
 def update_item(db: Session, item_id: int, new_item, user_id: int):
     item = db.query(ItemModel).filter(
@@ -84,3 +86,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 #email
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
+
+#user_id
+def get_items_by_user(db: Session, user_id: int):
+    return db.query(ItemModel).filter(ItemModel.user_id == user_id).all()
