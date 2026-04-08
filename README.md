@@ -13,7 +13,8 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 認証（Authentication）
 
 * ユーザー登録（POST /users/）
-* ログイン（JWTトークン発行）
+* ログイン（POST /login /JWTトークン発行）
+* JWTトークンでログインユーザーを特定
 
 ---
 
@@ -22,6 +23,7 @@ FastAPIを使用した商品管理APIです。
 * ログインユーザーごとにデータを管理
 * 自分のデータのみ取得可能
 * 他人のデータは操作不可
+* user_idを使い、自分のデータのみ操作可能に制御
 
 ---
 
@@ -105,3 +107,44 @@ db.query(Item).filter(Item.user_id == current_user.id).all()
 * 管理者権限の追加
 * ページネーション対応
 * テストコード追加
+
+---
+
+## セキュリティ設計
+
+本APIでは、他人のデータにアクセスした場合でも「存在しないデータ」として扱い、404を返しています。
+
+これにより、
+- データの存在有無を第三者に知られない
+- 情報漏洩を防ぐ設計としています。
+
+```python
+if item is None:
+    raise HTTPException(status_code=404, detail="Item not found")
+```
+
+---
+
+## プロジェクト構成
+
+web-study/
+├── auth.py
+├── crud.py
+├── database.py
+├── dependencies.py
+├── main.py
+├── models.py
+├── schemas.py
+└── routers/
+    ├── items.py
+    └── users.py
+
+---
+
+## 学習ポイント
+
+* FastAPIによるREST API設計
+* JWTを用いた認証処理
+* user_idを用いた認可制御
+* SQLAlchemyによるDB操作
+* レイヤー分割(router /crud /schema)
