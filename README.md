@@ -30,7 +30,7 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 CRUD機能
 
 * Create Item (POST /items/)
-* Get My Items (GET /items/) ← 自分のデータのみ
+* Get My Items (GET /items/) ← 自分のデータのみ取得(ページネーション・検索対応)
 * Get Item by ID (GET /items/{item_id})
 * Update Item (PUT /items/{item_id})
 * Delete Item (DELETE /items/{item_id})
@@ -74,6 +74,25 @@ http://127.0.0.1:8000/docs
 
 ---
 
+### ④ 一覧取得のオプション
+
+GET /items/ では以下のクエリパラメータが使用できます。
+
+* skip：取得開始位置（例：0）
+* limit：取得件数（例：10）
+* name：商品名検索（部分一致）
+
+#### 使用例
+
+GET/items/?skip=0&limit=5
+→最初の5件を取得
+
+GET/items/?name=apple
+→「apple」を含む商品を検索
+
+GET/items/?skip=0&limit=2&name=apple
+→「apple」を含むデータのうち、最初の2件を取得
+
 ## 実装のポイント
 
 ### ■ user_id によるデータ管理
@@ -98,6 +117,23 @@ db.query(Item).filter(Item.user_id == current_user.id).all()
 
 ```python
 .filter(Item.id == item_id, Item.user_id == current_user.id)
+```
+
+---
+
+### ■ ページネーション
+
+```python
+query.offset(skip).limit(limit).all()
+```
+
+---
+
+### ■ 検索機能
+
+```python
+if name:
+    query = query.filter(Item.name.contains(name))
 ```
 
 ---
@@ -148,3 +184,4 @@ web-study/
 * user_idを用いた認可制御
 * SQLAlchemyによるDB操作
 * レイヤー分割(router /crud /schema)
+* ページネーションと検索機能の実装
