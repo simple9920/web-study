@@ -88,5 +88,11 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 #user_id
-def get_items_by_user(db: Session, user_id: int):
-    return db.query(ItemModel).filter(ItemModel.user_id == user_id).all()
+def get_items_by_user(db: Session, user_id: int, skip: int = 0, limit: int = 10):
+    return (
+        db.query(ItemModel)
+        .filter(ItemModel.user_id == user_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
