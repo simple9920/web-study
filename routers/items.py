@@ -34,10 +34,11 @@ def get_item(
 def get_my_items(
     skip: int = 0,
     limit: int = 10,
+    name: str | None = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return crud.get_items_by_user(db, current_user.id, skip, limit)
+    return crud.get_items_by_user(db, current_user.id, skip, limit, name)
 
 
 @router.put("/{item_id}", response_model=ItemResponse)
