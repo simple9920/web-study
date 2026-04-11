@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -32,8 +32,8 @@ def get_item(
 
 @router.get("/", response_model=list[ItemResponse])
 def get_my_items(
-    skip: int = 0,
-    limit: int = 10,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=50),
     name: str | None = None,
     sort_by: str  = "id",
     order: str = "asc",
