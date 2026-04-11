@@ -30,7 +30,7 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 CRUD機能
 
 * Create Item (POST /items/)
-* Get My Items (GET /items/) ← 自分のデータのみ取得(ページネーション・検索対応)
+* Get My Items (GET /items/) ← 自分のデータのみ取得(ページネーション・検索・並び替え対応)
 * Get Item by ID (GET /items/{item_id})
 * Update Item (PUT /items/{item_id})
 * Delete Item (DELETE /items/{item_id})
@@ -81,6 +81,8 @@ GET /items/ では以下のクエリパラメータが使用できます。
 * skip：取得開始位置（例：0）
 * limit：取得件数（例：10）
 * name：商品名検索（部分一致）
+* sort_by:並び替え項目(id/ price)
+* order:並び替え(asc/ desc)
 
 #### 使用例
 
@@ -92,6 +94,12 @@ GET/items/?name=apple
 
 GET/items/?skip=0&limit=2&name=apple
 →「apple」を含むデータのうち、最初の2件を取得
+
+GET/items/?sort_by=price&order=desc
+→価格の高い順に並び替え
+
+GET/items/?skip=0&limit=2&name=apple&sort_by=price&order=asc
+→検索+ページネーション+並び替えを組み合わせ
 
 ## 実装のポイント
 
@@ -134,6 +142,22 @@ query.offset(skip).limit(limit).all()
 ```python
 if name:
     query = query.filter(Item.name.contains(name))
+```
+
+---
+
+### ■ 並び替え
+
+```python
+query = query.order_by(ItemModel.price.desc())
+```
+
+---
+
+### ■ 入力バリデーション
+
+```python
+limit: int = Query(10, ge=1, le=50)
 ```
 
 ---
@@ -184,4 +208,4 @@ web-study/
 * user_idを用いた認可制御
 * SQLAlchemyによるDB操作
 * レイヤー分割(router /crud /schema)
-* ページネーションと検索機能の実装
+* ページネーション・検索・並び替え・バリデーション機能の実装
