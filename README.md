@@ -21,9 +21,8 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 認可（Authorization）
 
 * ログインユーザーごとにデータを管理
-* 自分のデータのみ取得可能
-* 他人のデータは操作不可
 * user_idを使い、自分のデータのみ操作可能に制御
+* 他人のデータは操作不可
 
 ---
 
@@ -81,24 +80,24 @@ GET /items/ では以下のクエリパラメータが使用できます。
 * skip：取得開始位置（例：0）
 * limit：取得件数（例：10）
 * name：商品名検索（部分一致）
-* sort_by:並び替え項目(id/ price)
-* order:並び替え(asc/ desc)
+* sort_by:並び替え項目(id / price)
+* order:並び替え(asc / desc)
 
 #### 使用例
 
-GET/items/?skip=0&limit=5
+GET /items/?skip=0&limit=5
 →最初の5件を取得
 
-GET/items/?name=apple
+GET /items/?name=apple
 →「apple」を含む商品を検索
 
-GET/items/?skip=0&limit=2&name=apple
+GET /items/?skip=0&limit=2&name=apple
 →「apple」を含むデータのうち、最初の2件を取得
 
-GET/items/?sort_by=price&order=desc
+GET /items/?sort_by=price&order=desc
 →価格の高い順に並び替え
 
-GET/items/?skip=0&limit=2&name=apple&sort_by=price&order=asc
+GET /items/?skip=0&limit=2&name=apple&sort_by=price&order=asc
 →検索+ページネーション+並び替えを組み合わせ
 
 ## 実装のポイント
@@ -165,7 +164,6 @@ limit: int = Query(10, ge=1, le=50)
 ## 今後の改善（予定）
 
 * 管理者権限の追加
-* ページネーション対応
 * テストコード追加
 
 ---
@@ -207,5 +205,5 @@ web-study/
 * JWTを用いた認証処理
 * user_idを用いた認可制御
 * SQLAlchemyによるDB操作
-* レイヤー分割(router /crud /schema)
+* レイヤー分割(router / crud / schema)
 * ページネーション・検索・並び替え・バリデーション機能の実装
