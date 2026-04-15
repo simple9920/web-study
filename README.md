@@ -43,6 +43,7 @@ FastAPIを使用した商品管理APIです。
 * SQLAlchemy
 * SQLite
 * JWT認証
+* pytest(テスト)
 
 ---
 
@@ -164,7 +165,6 @@ limit: int = Query(10, ge=1, le=50)
 ## 今後の改善（予定）
 
 * 管理者権限の追加
-* テストコード追加
 
 ---
 
@@ -180,6 +180,15 @@ limit: int = Query(10, ge=1, le=50)
 if item is None:
     raise HTTPException(status_code=404, detail="Item not found")
 ```
+
+---
+
+## テスト
+
+pytestを使用して、以下のテストを実装しています。
+
+* 入力バリデーションテスト(limitの範囲チェック)
+* 認可テスト(他人データアクセス時の404確認)
 
 ---
 
@@ -207,3 +216,4 @@ web-study/
 * SQLAlchemyによるDB操作
 * レイヤー分割(router / crud / schema)
 * ページネーション・検索・並び替え・バリデーション機能の実装
+* pytestを用板APIテストの実装
