@@ -64,9 +64,14 @@ def test_get_items_requires_authentication():
 
     assert response.status_code == 401
 
-def test_get_items_requires_authentication():
+    app.dependency_overrides[get_current_user] = override_get_current_user
+
+
+def test_get_item_requires_authentication():
     app.dependency_overrides = {}
 
     response = client.get("/items/1")
 
     assert response.status_code == 401    
+
+    app.dependency_overrides[get_current_user] = override_get_current_user
