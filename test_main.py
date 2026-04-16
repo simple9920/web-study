@@ -56,3 +56,17 @@ def test_read_items_limit_validation_too_small():
 def test_read_items_limit_validation_too_large():
     response = client.get("/items/?limit=100")
     assert response.status_code == 422
+
+def test_get_items_requires_authentication():
+    app.dependency_overrides = {}
+
+    response = client.get("/items/")
+
+    assert response.status_code == 401
+
+def test_get_items_requires_authentication():
+    app.dependency_overrides = {}
+
+    response = client.get("/items/1")
+
+    assert response.status_code == 401    
