@@ -8,6 +8,7 @@ class ItemCreate(BaseModel):
 class ItemUpdate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
     price: int = Field(..., gt=0)
+    description: str | None = Field(None, max_length=200)
 
 class ItemResponse(BaseModel):
     id: int = Field(..., gt=0)

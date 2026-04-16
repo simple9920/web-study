@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from database import engine, Base
+from database import engine
 from sqlalchemy.orm import declarative_base, relationship
 from pydantic import BaseModel
 from pydantic import Field
