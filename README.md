@@ -208,6 +208,7 @@ pytestを使用して、APIの動作確認を自動化しています。
 
 ## プロジェクト構成
 
+```text
 web-study/
 ├── auth.py
 ├── crud.py
@@ -219,6 +220,7 @@ web-study/
 └── routers/
     ├── items.py
     └── users.py
+```
 
 ---
 
