@@ -13,7 +13,7 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 認証（Authentication）
 
 * ユーザー登録（POST /users/）
-* ログイン（POST /login /JWTトークン発行）
+* ログイン POST /login （JWTトークン発行）
 * JWTトークンでログインユーザーを特定
 
 ---
@@ -81,25 +81,38 @@ GET /items/ では以下のクエリパラメータが使用できます。
 * skip：取得開始位置（例：0）
 * limit：取得件数（例：10）
 * name：商品名検索（部分一致）
-* sort_by:並び替え項目(id / price)
-* order:並び替え(asc / desc)
+* sort_by：並び替え項目(id / price)
+* order：並び替え(asc / desc)
 
 #### 使用例
 
+```text
 GET /items/?skip=0&limit=5
-→最初の5件を取得
+```
+→ 最初の5件を取得
 
+```text
 GET /items/?name=apple
+```
 →「apple」を含む商品を検索
 
+
+```text
 GET /items/?skip=0&limit=2&name=apple
+```
 →「apple」を含むデータのうち、最初の2件を取得
 
-GET /items/?sort_by=price&order=desc
-→価格の高い順に並び替え
 
+```text
+GET /items/?sort_by=price&order=desc
+```
+→ 価格の高い順に並び替え
+
+
+```text
 GET /items/?skip=0&limit=2&name=apple&sort_by=price&order=asc
-→検索+ページネーション+並び替えを組み合わせ
+```
+→ 検索+ページネーション+並び替えを組み合わせ
 
 ## 実装のポイント
 
@@ -185,10 +198,11 @@ if item is None:
 
 ## テスト
 
-pytestを使用して、以下のテストを実装しています。
+pytestを使用して、APIの動作確認を自動化しています。
 
 * 入力バリデーションテスト(limitの範囲チェック)
 * 認可テスト(他人データアクセス時の404確認)
+* 認証テスト(未ログイン時の401確認)
 
 ---
 
@@ -216,4 +230,5 @@ web-study/
 * SQLAlchemyによるDB操作
 * レイヤー分割(router / crud / schema)
 * ページネーション・検索・並び替え・バリデーション機能の実装
-* pytestを用板APIテストの実装
+* pytestを用いたAPIテストの実装
+* 認証・認可・バリデーションを含むAPIのテスト設計
