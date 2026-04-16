@@ -217,6 +217,7 @@ web-study/
 ├── main.py
 ├── models.py
 ├── schemas.py
+├── test_main.py
 └── routers/
     ├── items.py
     └── users.py
