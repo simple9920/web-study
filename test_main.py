@@ -75,3 +75,35 @@ def test_get_item_requires_authentication():
     assert response.status_code == 401    
 
     app.dependency_overrides[get_current_user] = override_get_current_user
+
+def test_search_items(monkeypatch):
+    def fake_get_items(db, user_id, skip, limit, name, sort_by, order):
+        return [
+            {"id": 1, "name": "apple", "price": 100, "description": "", "user_id": user_id},
+            {"id": 2, "name": "banana", "price": 200, "description": "", "user_id": user_id},
+        ]
+    
+    monkeypatch.setattr(crud, "get_items_by_user", fake_get_items)
+
+    response = client.get("/items/?name=apple")
+
+    assert response.status_code == 200
+    data = response.json()
+
+    # appleが含まれてることだけ確認
+    assert any("apple" in item["name"] for item in data)
+
+def test_sort_items(monkeypatch):
+    def fake_get_items(db, user_id, skip, limit, name, sort_by, order):
+        return[
+            {"id": 2, "name": "banana", "price": 200, "description": "", "user_id": user_id},
+            {"id": 1, "name": "apple", "price": 100, "description": "", "user_id": user_id},
+        ]
+    
+    monkeypatch.setattr(crud, "get_items_by_user", fake_get_items)
+
+    response = client.get("/items/?sort_by=price&order=desc")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data[0]["price"] >= data[1]["price"]
