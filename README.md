@@ -13,23 +13,18 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 認証（Authentication）
 
 * ユーザー登録（POST /users/）
-<<<<<<< HEAD
 * ログイン（JWTトークン発行）
-=======
 * ログイン POST /login （JWTトークン発行）
 * JWTトークンでログインユーザーを特定
->>>>>>> phase3
+
 
 ---
 
 ### 🔹 認可（Authorization）
 
 * ログインユーザーごとにデータを管理
-<<<<<<< HEAD
 * 自分のデータのみ取得可能
-=======
 * user_idを使い、自分のデータのみ操作可能に制御
->>>>>>> phase3
 * 他人のデータは操作不可
 
 ---
@@ -37,12 +32,8 @@ FastAPIを使用した商品管理APIです。
 ### 🔹 CRUD機能
 
 * Create Item (POST /items/)
-<<<<<<< HEAD
 * Get My Items (GET /items/) ← 自分のデータのみ
-=======
 * Get My Items (GET /items/) ← 自分のデータのみ取得(ページネーション・検索・並び替え対応)
->>>>>>> phase3
-* Get Item by ID (GET /items/{item_id})
 * Update Item (PUT /items/{item_id})
 * Delete Item (DELETE /items/{item_id})
 
@@ -55,10 +46,8 @@ FastAPIを使用した商品管理APIです。
 * SQLAlchemy
 * SQLite
 * JWT認証
-<<<<<<< HEAD
-=======
 * pytest(テスト)
->>>>>>> phase3
+
 
 ---
 
@@ -89,8 +78,6 @@ http://127.0.0.1:8000/docs
 
 ---
 
-<<<<<<< HEAD
-=======
 ### ④ 一覧取得のオプション
 
 GET /items/ では以下のクエリパラメータが使用できます。
@@ -131,7 +118,7 @@ GET /items/?skip=0&limit=2&name=apple&sort_by=price&order=asc
 ```
 → 検索+ページネーション+並び替えを組み合わせ
 
->>>>>>> phase3
+
 ## 実装のポイント
 
 ### ■ user_id によるデータ管理
@@ -143,8 +130,6 @@ user_id = current_user.id
 ```
 
 ---
-<<<<<<< HEAD
-=======
 
 ### ■ 自分のデータのみ取得
 
@@ -221,8 +206,10 @@ if item is None:
 pytestを使用して、APIの動作確認を自動化しています。
 
 * 入力バリデーションテスト(limitの範囲チェック)
-* 認可テスト(他人データアクセス時の404確認)
-* 認証テスト(未ログイン時の401確認)
+* 認可テスト (他人データアクセス時の404確認)
+* 認証テスト (未ログイン時の401確認)
+* 検索テスト (nameによる絞り込み確認)
++ 並び替えテスト (price順の確認)
 
 ---
 
@@ -255,4 +242,4 @@ web-study/
 * ページネーション・検索・並び替え・バリデーション機能の実装
 * pytestを用いたAPIテストの実装
 * 認証・認可・バリデーションを含むAPIのテスト設計
->>>>>>> phase3
+
